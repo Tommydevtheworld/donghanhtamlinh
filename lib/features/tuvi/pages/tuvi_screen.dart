@@ -188,7 +188,7 @@ class _TuViScreenState extends State<TuViScreen> {
                           initialDate: DateTime(_namXem),
                           onChanged: (DateTime dateTime) {
                             Navigator.pop(context, dateTime.year);
-                          },
+                          }, selectedDate: null,
                         ),
                       ),
                     ),
