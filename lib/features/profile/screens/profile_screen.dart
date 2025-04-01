@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/constants/app_colors.dart' as app_colors;
 import '../../auth/data/services/auth_service.dart';
+import '../../../shared/providers/notification_provider.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends ConsumerWidget {
   static final _authService = AuthService();
 
   const ProfileScreen({super.key});
@@ -52,7 +54,7 @@ class ProfileScreen extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -84,6 +86,9 @@ class ProfileScreen extends StatelessWidget {
               title: 'Thông Báo',
               subtitle: 'Quản lý thông báo',
               context: context,
+              onTap: () {
+                ref.read(notificationServiceProvider).showMockNotification();
+              },
             ),
             _MenuItem(
               icon: Icons.payment,
@@ -194,6 +199,8 @@ class ProfileScreen extends StatelessWidget {
       onTap: () {
         if (item.title == 'Đăng Xuất') {
           _handleLogout(item.context);
+        } else if (item.onTap != null) {
+          item.onTap!();
         }
       },
     );
@@ -206,6 +213,7 @@ class _MenuItem {
   final String subtitle;
   final bool isDestructive;
   final BuildContext context;
+  final VoidCallback? onTap;
 
   _MenuItem({
     required this.icon,
@@ -213,5 +221,6 @@ class _MenuItem {
     required this.subtitle,
     this.isDestructive = false,
     required this.context,
+    this.onTap,
   });
 }

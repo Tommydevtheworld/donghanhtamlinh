@@ -3,10 +3,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'core/routes/app_router.dart';
 import 'core/styles/app_theme.dart';
 import 'shared/dependencies/dependency_injection.dart';
+import 'core/services/notification_service.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   initDependencies();
+  
+  // Initialize notification service
+  await NotificationService().initialize();
+  
   runApp(
     const ProviderScope(
       child: MyApp(),
